@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Car Recommendation Finder & Comparison</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 10px;
+            color: #333;
+        }
+        .container {
+            max-width: 750px;
+            background: white;
+            padding: 25px;
+            margin: 20px auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            text-align: center;
+            color: #0f4c81;
+            margin-bottom: 5px;
+            font-size: 28px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 15px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fff;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        select:focus {
+            border-color: #0f4c81;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #0f4c81;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #113f67;
+        }
+        .result-box {
+            margin-top: 30px;
+            display: none;
+        }
+        .result-title {
+            color: #0f4c81;
+            border-bottom: 2px solid #0f4c81;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f7fafc;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-safety { background-color: #e6fffa; color: #234e52; }
+        .badge-price { background-color: #ebf8ff; color: #2b6cb0; }
+        .ad-space {
+            margin-top: 35px;
+            padding: 20px;
+            background: #fafafa;
+            border: 2px dashed #cbd5e0;
+            text-align: center;
+            color: #718096;
+            font-size: 13px;
+            border-radius: 8px;
+        }
+        .disclaimer {
+            font-size: 11px;
+            color: #a0aec0;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇮🇳 Indian Car Expert Finder</h1>
+    <p class="subtitle">AI-powered recommendations with exact Indian variants, features, and safety comparisons.</p>
+
+    <!-- BUDGET IN LAKHS -->
+    <div class="form-group">
+        <label for="budget">1. Max Budget (Ex-Showroom Price):</label>
+        <select id="budget">
+            <option value="under10">Under ₹10 Lakhs (Budget)</option>
+            <option value="10to20">₹10 Lakhs - ₹20 Lakhs (Mid-range)</option>
+            <option value="20to40">₹20 Lakhs - ₹40 Lakhs (Premium)</option>
+            <option value="above40">Above ₹40 Lakhs (Luxury)</option>
+        </select>
+    </div>
+
+    <!-- FUEL TYPE -->
+    <div class="form-group">
+        <label for="fuel">2. Fuel Type Preference:</label>
+        <select id="fuel">
+            <option value="petrol">Petrol (Smooth / Low Running maintenance)</option>
+            <option value="diesel">Diesel (Torque / Long Highway Runs)</option>
+            <option value="ev">Electric / EV (Zero Emissions / Low Running Cost)</option>
+            <option value="cng">CNG (Maximum Economy / City Taxi/Commute)</option>
+        </select>
+    </div>
+
+    <!-- SEATING CAPACITY -->
+    <div class="form-group">
+        <label for="seating">3. Seating Capacity (Family Size):</label>
+        <select id="seating">
+            <option value="5">5 Seater (Small / Medium Family)</option>
+            <option value="7">6 or 7 Seater (Large / Joint Family)</option>
+        </select>
+    </div>
+
+    <!-- USAGE/NEED -->
+    <div class="form-group">
+        <label for="usage">4. Primary Usage / Major Need:</label>
+        <select id="usage">
+            <option value="city">Daily City Commute (Easy Parking & Automatic)</option>
+            <option value="highway">Frequent Highway Trips (Safety & Stability)</option>
+            <option value="offroad">Rough Roads / Off-road (High Ground Clearance)</option>
+        </select>
+    </div>
+
+    <button onclick="calculateCar()">Generate Expert Comparison</button>
+
+    <!-- DYNAMIC RESULTS MAP -->
+    <div id="resultBlock" class="result-box">
+        <h3 class="result-title">🎯 Top Recommendations & Deep Comparison</h3>
+        <p>Based on your criteria, here are the absolute best-suited choices available in India:</p>
+        
+        <div id="tableContainer"></div>
+    </div>
+
+    <!-- FUTURE ADSENSE -->
+    <div class="ad-space">
+        [Google AdSense / Car Insurance Affiliate Ads Placed Automatically Here]
+    </div>
+    
+    <p class="disclaimer">*Prices shown are indicative average ex-showroom India. Actual prices vary by state and variant selection.</p>
+</div>
+
+<script>
+function calculateCar() {
+    const budget = document.getElementById('budget').value;
+    const fuel = document.getElementById('fuel').value;
+    const seating = document.getElementById('seating').value;
+    const usage = document.getElementById('usage').value;
+
+    let cars = [];
+
+    // DATABASE WITH DETAILED INDIAN CAR PROFILES
+    if (budget === "under10") {
+        if (fuel === "cng") {
+            cars = [
+                { name: "Maruti Suzuki Ertiga (VXI CNG)", price: "₹10.78 Lakh", safety: "3-Star GNCAP", mileage: "26.11 km/kg", space: "209L (All rows up)", key: "Best 7-seater CNG option for family comfort and high resale value." },
+                { name: "Tata Punch iCNG", price: "₹7.23 Lakh", safety: "5-Star GNCAP", mileage: "27.0 km/kg", space: "210L (Dual Cylinder)", key: "Twin-cylinder tech gives actual usable boot space with industry-best safety." }
+            ];
+        } else if (fuel === "ev") {
+            cars = [
+                { name: "Tata Tiago EV", price: "₹7.99 Lakh", safety: "4-Star GNCAP", mileage: "250 km Range", space: "240L", key: "Most affordable entry-level family EV. Perfect automatic substitute for city gridlock." }
+            ];
+        } else if (seating === "7") {
+            cars = [
+                { name: "Renault Triber", price: "₹6.00 Lakh", safety: "4-Star GNCAP", mileage: "18.2 kmpl", space: "625L (5-seat mode)", key: "Highly modular layout. Removable third-row seating at an unbeatable price point." },
+                { name: "Maruti Suzuki Ertiga", price: "₹8.69 Lakh", safety: "3-Star GNCAP", mileage: "20.5 kmpl", space: "209L", key: "The default king of budget 7-seater vehicles in India. Supreme reliability." }
+            ];
+        } else { // 5 Seater petrol
+            cars = [
+                { name: "Tata Nexon (Smart)", price: "₹8.00 Lakh", safety: "5-Star BNCAP", mileage: "17.4 kmpl", space: "382L", key: "Turbo petrol punch, rugged high ground clearance (208mm), and zero compromise safety." },
+                { name: "Maruti Suzuki Brezza", price: "₹8.34 Lakh", safety: "4-Star GNCAP", mileage: "19.8 kmpl", space: "328L", key: "Reliable 1.5L naturally aspirated engine, bulletproof resale, and high city comfort." }
+            ];
+        }
+    } 
+    
+    else if (budget === "10to20") {
+        if (fuel === "ev") {
+            cars = [
+                { name: "Tata Punch EV", price: "₹10.99 Lakh", safety: "5-Star BNCAP", mileage: "315-421 km Range", space: "366L", key: "Built on native EV platform, loaded with premium features like ventilated seats." },
+                { name: "MG Windsor EV", price: "₹13.50 Lakh", safety: "Not Rated Yet", mileage: "331 km Range", space: "600L", key: "Unmatched rear seat comfort and lounge-like space. Great tech package." }
+            ];
+        } else if (fuel === "diesel") {
+            cars = [
+                { name: "Mahindra Scorpio-N (Z4 D)", price: "₹15.90 Lakh", safety: "5-Star GNCAP", mileage: "14.0 kmpl", space: "460L", key: "Real body-on-frame 7-seater SUV with commanding driving position and massive road presence." },
+                { name: "Hyundai Creta Diesel", price: "₹12.56 Lakh", safety: "Under BNCAP testing", mileage: "21.8 kmpl", space: "433L", key: "Ultra-smooth CRDi engine. Industry leader in premium dashboard tech and ride refinement." }
+            ];
+        } else if (seating === "7") {
+            cars = [
+                { name: "Mahindra XUV700 (AX3/AX5)", price: "₹16.89 Lakh", safety: "5-Star GNCAP", mileage: "13-16 kmpl", space: "240L (Rows up)", key: "World-class dynamics, high premium dashboard screens, and class-leading safety tech." },
+                { name: "Kia Carens", price: "₹10.52 Lakh", safety: "3-Star GNCAP", mileage: "17.9 kmpl", space: "216L", key: "Ertiga upgrade. Offers proper 3-row comfort with flexible seating options." }
+            ];
